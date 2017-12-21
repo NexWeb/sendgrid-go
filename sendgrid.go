@@ -3,6 +3,7 @@ package sendgrid
 
 import (
 	"errors"
+  "regexp"
 	"net/http"
 	"strconv"
 	"time"
@@ -65,6 +66,15 @@ func API(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
 }
 
+
+// Checks email content for presence of an API key before sending.
+func CheckSecrets(mailContent string) (int, error) {
+	var secret = regexp.MustCompile(`SG.[a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+`)
+	if secret.MatchString(mailContent) {
+		return -1, errors.New("Error: API key found in email content. Do not send secrets! ")
+	}
+	return 0, nil
+=======
 // MakeRequest attemps a SendGrid request synchronously.
 func MakeRequest(request rest.Request) (*rest.Response, error) {
 	return DefaultClient.API(request)
@@ -124,4 +134,5 @@ func MakeRequestAsync(request rest.Request) (chan *rest.Response, chan error) {
 	}()
 
 	return r, e
+
 }
