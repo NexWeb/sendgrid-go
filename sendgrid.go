@@ -67,7 +67,7 @@ func API(request rest.Request) (*rest.Response, error) {
 }
 
 
-// Checks email content for presence of an API key before sending.
+// CheckSecrets checks email content for presence of an API key before sending.
 func CheckSecrets(mailContent string) (int, error) {
 	var secret = regexp.MustCompile(`SG.[a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+`)
 	if secret.MatchString(mailContent) {
