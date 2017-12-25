@@ -3,7 +3,7 @@ package sendgrid
 
 import (
 	"errors"
-    "regexp"
+        "regexp"
 	"net/http"
 	"strconv"
 	"time"
